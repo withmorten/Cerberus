@@ -110,6 +110,11 @@ namespace Cerberus.Logic
         public abstract int GetJumpLocation(int from, int to);
         public abstract ScriptOp LoadOperation(int offset);
 
+        public bool IsBO2()
+        {
+            return Game == "Black Ops II";
+        }
+
         public void LoadFunction(ScriptExport function)
         {
             var offset = function.ByteCodeOffset;
@@ -145,7 +150,8 @@ namespace Cerberus.Logic
 
             foreach(var include in Includes)
             {
-                output.AppendLine(string.Format("#using {0};", include));
+                if (IsBO2()) output.AppendLine(string.Format("#include {0};", include));
+                else output.AppendLine(string.Format("#using {0};", include));
                 lineNumber++;
             }
 
@@ -227,7 +233,8 @@ namespace Cerberus.Logic
 
             foreach (var include in Includes)
             {
-                output.AppendLine(string.Format("#using {0};", include));
+                if (IsBO2()) output.AppendLine(string.Format("#include {0};", include));
+                else output.AppendLine(string.Format("#using {0};", include));
                 lineNumber++;
             }
 
@@ -254,13 +261,14 @@ namespace Cerberus.Logic
             foreach (var function in Exports)
             {
                 // Write the namspace if it differs
-                if (!string.IsNullOrWhiteSpace(function.Namespace) && function.Namespace != nameSpace)
+                if (!IsBO2() && !string.IsNullOrWhiteSpace(function.Namespace) && function.Namespace != nameSpace)
                 {
                     nameSpace = function.Namespace;
                     output.AppendLine(string.Format("#namespace {0};\n", nameSpace));
                     lineNumber += 2;
                 }
 
+#if DEBUG
                 // Spit out some info
                 output.AppendLine("/*");
                 output.AppendLine(string.Format("\tName: {0}", function.Name));
@@ -272,6 +280,7 @@ namespace Cerberus.Logic
                 output.AppendLine(string.Format("\tFlags: {0}", function.Flags));
                 output.AppendLine("*/");
                 lineNumber += 9;
+#endif
 
                 using (var decompiler = new Decompiler(function, this))
                 {

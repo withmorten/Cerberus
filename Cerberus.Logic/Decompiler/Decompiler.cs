@@ -230,16 +230,21 @@ namespace Cerberus.Logic
         /// </summary>
         private string BuildFunctionDefinition()
         {
-            var result = "function ";
+            var result = "";
 
-            // Flags, currently only 2 are known (Private/Autoexec)
-            if(Function.Flags.HasFlag(ScriptExportFlags.Private))
+            if (!Script.IsBO2())
             {
-                result += "private ";
-            }
-            if (Function.Flags.HasFlag(ScriptExportFlags.AutoExec))
-            {
-                result += "autoexec ";
+                result += "function ";
+
+                // Flags, currently only 2 are known (Private/Autoexec)
+                if (Function.Flags.HasFlag(ScriptExportFlags.Private))
+                {
+                    result += "private ";
+                }
+                if (Function.Flags.HasFlag(ScriptExportFlags.AutoExec))
+                {
+                    result += "autoexec ";
+                }
             }
 
             result += Function.Name + "(";
