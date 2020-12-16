@@ -274,7 +274,7 @@ namespace Cerberus.Logic
                 case ScriptOperandType.Hash:
                     {
                         Reader.BaseStream.Position += Utility.ComputePadding((int)Reader.BaseStream.Position, 4);
-                        operation.Operands.Add(new ScriptOpOperand(GetHashValue(Reader.ReadUInt32(), "hash_")));
+                        operation.Operands.Add(new ScriptOpOperand("\"" + GetHashValue(Reader.ReadUInt32(), "hash_") + "\""));
                         break;
                     }
                 case ScriptOperandType.Float:
