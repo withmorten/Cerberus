@@ -295,9 +295,10 @@ namespace Cerberus.Logic
 
                         // Set each flag, it's either 1.0, -1.0, or simply 0.0
                         operation.Operands.Add(new ScriptOpOperand(
+                            string.Format("({0}, {1}, {2})",
                             (flags & 0x20) != 0 ? 1.0f : (flags & 0x10) != 0 ? -1.0f : 0.0f,
                             (flags & 0x08) != 0 ? 1.0f : (flags & 0x04) != 0 ? -1.0f : 0.0f,
-                            (flags & 0x02) != 0 ? 1.0f : (flags & 0x01) != 0 ? -1.0f : 0.0f));
+                            (flags & 0x02) != 0 ? 1.0f : (flags & 0x01) != 0 ? -1.0f : 0.0f)));
                         break;
                     }
                 case ScriptOperandType.String:
