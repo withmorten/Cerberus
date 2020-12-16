@@ -1,6 +1,4 @@
 # Cerberus
-[![Releases](https://img.shields.io/github/downloads/Scobalula/Cerberus-Repo/total.svg)](https://github.com/Scobalula/Greyhound/releases) [![Discord](https://img.shields.io/badge/chat-Discord-blue.svg)](https://discord.gg/fGVpV39)
-
 Cerberus is a GSC/CSC Decompiler for Call of Duty: Black Ops II/III. It's main purpose is to provide access to scripts that Treyarch did not provide in the Call of Duty: Black Ops III Mod Tools and to give greater insight into how Treyarch achieved certain things, undocumented APIs, etc.
 
 # Features:
