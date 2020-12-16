@@ -138,7 +138,7 @@ namespace Cerberus.Logic
                     crc32.Update(Reader.ReadByte());
 
                     // If we hit, we're done
-                    if(crc32.Value == export.Checksum)
+                    if (crc32.Value == export.Checksum)
                     {
                         break;
                     }
@@ -230,7 +230,7 @@ namespace Cerberus.Logic
                     }
                 case ScriptOperandType.UInt8:
                     {
-                        if(operation.Metadata.OpCode == ScriptOpCode.GetNegByte)
+                        if (operation.Metadata.OpCode == ScriptOpCode.GetNegByte)
                         {
                             operation.Operands.Add(new ScriptOpOperand(-Reader.ReadByte()));
                         }
@@ -300,17 +300,11 @@ namespace Cerberus.Logic
                             (flags & 0x02) != 0 ? 1.0f : (flags & 0x01) != 0 ? -1.0f : 0.0f));
                         break;
                     }
-                case ScriptOperandType.VariableName:
-                    {
-                        Reader.BaseStream.Position += Utility.ComputePadding((int)Reader.BaseStream.Position, 2);
-                        operation.Operands.Add(new ScriptOpOperand(Reader.PeekNullTerminatedString(Reader.ReadUInt16())));
-                        break;
-                    }
                 case ScriptOperandType.String:
                     {
                         // If it's anim animation, etc. we can just read at the location, but for strings
                         // we can just grab via pointer
-                        switch(operation.Metadata.OpCode)
+                        switch (operation.Metadata.OpCode)
                         {
                             case ScriptOpCode.GetString:
                                 Reader.BaseStream.Position += Utility.ComputePadding((int)Reader.BaseStream.Position, 2);
@@ -328,6 +322,12 @@ namespace Cerberus.Logic
                                 break;
                         }
                         
+                        break;
+                    }
+                case ScriptOperandType.VariableName:
+                    {
+                        Reader.BaseStream.Position += Utility.ComputePadding((int)Reader.BaseStream.Position, 2);
+                        operation.Operands.Add(new ScriptOpOperand(Reader.PeekNullTerminatedString(Reader.ReadUInt16())));
                         break;
                     }
                 case ScriptOperandType.FunctionPointer:
@@ -367,7 +367,7 @@ namespace Cerberus.Logic
                     {
                         var switches = LoadEndSwitch();
 
-                        foreach(var switchBlock in switches)
+                        foreach (var switchBlock in switches)
                         {
                             operation.Operands.Add(new ScriptOpOperand(switchBlock));
                         }

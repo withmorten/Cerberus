@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using PhilLibX;
 using PhilLibX.IO;
 
 namespace Cerberus.Logic
 {
+    /// <summary>
+    /// Class to process Black Ops III Scripts
+    /// </summary>
 	public partial class BlackOps3Script : ScriptBase
 	{
 		/// <summary>
@@ -16,12 +18,21 @@ namespace Cerberus.Logic
 		/// </summary>
 		public override string Game => "Black Ops III";
 
+        /// <summary>
+        /// Creates an instance of a new Black Ops III Script with a Stream
+        /// </summary>
 		public BlackOps3Script(Stream stream, Dictionary<uint, string> hashTable) : base(stream, hashTable) { }
+
+        /// <summary>
+        /// Creates an instance of a new Black Ops III Script with a Reader
+        /// </summary>
 		public BlackOps3Script(BinaryReader reader, Dictionary<uint, string> hashTable) : base(reader, hashTable) { }
 
+        /// <summary>
+        /// Loads the header from a Black Ops III Script
+        /// </summary>
 		public override void LoadHeader()
 		{
-
 			// Ensure we're at the header (skip 8 byte magic)
 			Reader.BaseStream.Position = 8;
 
@@ -58,6 +69,9 @@ namespace Cerberus.Logic
 			Reader.BaseStream.Position = 72;
 		}
 
+        /// <summary>
+        /// Loads strings from a Black Ops III Script
+        /// </summary>
 		public override void LoadStrings()
 		{
 			Reader.BaseStream.Position = Header.StringTableOffset;
@@ -123,6 +137,9 @@ namespace Cerberus.Logic
 			}
 		}
 
+        /// <summary>
+        /// Loads exports from a Black Ops III Script
+        /// </summary>
 		public override void LoadExports()
 		{
 			Reader.BaseStream.Position = Header.ExportTableOffset;
@@ -158,7 +175,7 @@ namespace Cerberus.Logic
 				//	crc32.Update(Reader.ReadByte());
 
 				//	// If we hit, we're done
-				//	if(crc32.Value == export.Checksum)
+				//	if (crc32.Value == export.Checksum)
 				//	{
 				//		break;
 				//	}
@@ -297,7 +314,7 @@ namespace Cerberus.Logic
 					{
 						if (operation.Metadata.OpCode == ScriptOpCode.GetNegByte)
 						{
-							operation.Operands.Add(new ScriptOpOperand(Reader.ReadByte() * -1));
+							operation.Operands.Add(new ScriptOpOperand(-Reader.ReadByte()));
 						}
 						else
 						{
@@ -316,7 +333,7 @@ namespace Cerberus.Logic
 						Reader.BaseStream.Position += Utility.ComputePadding((int)Reader.BaseStream.Position, 2);
 						if (operation.Metadata.OpCode == ScriptOpCode.GetNegUnsignedShort)
 						{
-							operation.Operands.Add(new ScriptOpOperand(Reader.ReadUInt16() * -1));
+							operation.Operands.Add(new ScriptOpOperand(-Reader.ReadUInt16()));
 						}
 						else
 						{
