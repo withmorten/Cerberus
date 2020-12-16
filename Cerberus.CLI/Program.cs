@@ -178,6 +178,8 @@ namespace Cerberus.CLI
             Console.WriteLine(": Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
             Console.WriteLine(": ----------------------------------------------------------");
 
+            System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+
             var parser = new Parser(config => config.HelpWriter = null);
             var cliOptions = parser.ParseArguments<CliOptions>(args).WithParsed(x => Options = x).WithNotParsed(_ => Options = new CliOptions());
 
@@ -190,6 +192,7 @@ namespace Cerberus.CLI
 
             LoadHashTables();
 
+#if false
             var files = Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.*", SearchOption.AllDirectories);
 
             Console.WriteLine(files.Length);
@@ -227,76 +230,77 @@ namespace Cerberus.CLI
                     PrintVerbose(e);
                 }
             }
+#endif
 
-            //            foreach (var arg in args)
-            //            {
-            //                try
-            //                {
-            //                    if (AcceptedExtensions.Contains(Path.GetExtension(arg).ToLower()))
-            //                    {
-            //                        if (File.Exists(arg))
-            //                        {
-            //                            filesProcessed++;
-            //                            Console.WriteLine(": Processing {0}...", Path.GetFileName(arg));
+            foreach (var arg in args)
+            {
+                try
+                {
+                    if (AcceptedExtensions.Contains(Path.GetExtension(arg).ToLower()))
+                    {
+                        if (File.Exists(arg))
+                        {
+                            filesProcessed++;
+                            Console.WriteLine(": Processing {0}...", Path.GetFileName(arg));
 
-            //                            switch (Path.GetExtension(arg).ToLower())
-            //                            {
-            //                                case ".gsc":
-            //                                case ".csc":
-            //                                case ".gscc":
-            //                                case ".cscc":
-            //                                    {
-            //                                        ProcessScript(arg);
-            //                                        break;
-            //                                    }
-            //                                case ".ff":
-            //                                    {
-            //                                        PrintVerbose(": Decompressing and Processing Fast File.....");
+                            switch (Path.GetExtension(arg).ToLower())
+                            {
+                                case ".gsc":
+                                case ".csc":
+                                case ".gscc":
+                                case ".cscc":
+                                    {
+                                        ProcessScript(arg);
+                                        break;
+                                    }
+                                case ".ff":
+                                    {
+                                        PrintVerbose(": Decompressing and Processing Fast File.....");
 
-            //                                        // Skip ZM Temple, it causes issues due to a weird large number
-            //                                        // of blocks
-            //                                        if (Path.GetFileName(arg) != "zm_temple")
-            //                                        {
-            //                                            try
-            //                                            {
-            //                                                var files = FastFile.Decompress(arg, arg + ".output");
+                                        // Skip ZM Temple, it causes issues due to a weird large number
+                                        // of blocks
+                                        if (Path.GetFileName(arg) != "zm_temple")
+                                        {
+                                            try
+                                            {
+                                                var files = FastFile.Decompress(arg, arg + ".output");
 
-            //                                                if (Options.Verbose)
-            //                                                {
-            //                                                    foreach (var file in files)
-            //                                                    {
-            //                                                        Console.WriteLine(": Found {0}", file);
-            //                                                    }
-            //                                                }
+                                                if (Options.Verbose)
+                                                {
+                                                    foreach (var file in files)
+                                                    {
+                                                        Console.WriteLine(": Found {0}", file);
+                                                    }
+                                                }
 
-            //                                            }
-            //                                            catch (Exception e)
-            //                                            {
-            //                                                PrintVerbose(e);
-            //                                                throw e;
-            //                                            }
-            //                                            finally
-            //                                            {
-            //#if !DEBUG
-            //                                                File.Delete(arg + ".output");
-            //#endif
-            //                                            }
-            //                                        }
+                                            }
+                                            catch (Exception e)
+                                            {
+                                                PrintVerbose(e);
+                                                throw e;
+                                            }
+                                            finally
+                                            {
+#if !DEBUG
+                                                File.Delete(arg + ".output");
+#endif
+                                            }
+                                        }
 
-            //                                        break;
-            //                                    }
-            //                            }
+                                        break;
+                                    }
+                            }
 
-            //                            Console.WriteLine(": Processed {0} successfully.", Path.GetFileName(arg));
-            //                        }
-            //                    }
-            //                }
-            //                catch (Exception e)
-            //                {
-            //                    Console.WriteLine(": An error has occured while processing {0}: {1}", Path.GetFileName(arg), e.Message);
-            //                    PrintVerbose(e);
-            //                }
-            //            }
+                            Console.WriteLine(": Processed {0} successfully.", Path.GetFileName(arg));
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(": An error has occured while processing {0}: {1}", Path.GetFileName(arg), e.Message);
+                    PrintVerbose(e);
+                }
+            }
 
             if (Options.Help || filesProcessed <= 0)
             {
@@ -307,8 +311,8 @@ namespace Cerberus.CLI
 
             if (Options.Close == false)
             {
-                Console.WriteLine(": Execution completed successfully, press Enter to exit.");
-                Console.ReadLine();
+                Console.WriteLine(": Execution completed successfully.");
+                // Console.ReadLine();
             }
         }
     }
