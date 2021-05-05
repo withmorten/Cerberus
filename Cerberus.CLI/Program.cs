@@ -162,7 +162,7 @@ namespace Cerberus.CLI
                     }
 
                     PrintVerbose(": Decompiling script..");
-                    File.WriteAllText(outputPath + ".decompiled" + Path.GetExtension(outputPath), script.Decompile());
+                    File.WriteAllText(outputPath + ".decompiled.gsc" + Path.GetExtension(outputPath), script.Decompile());
                 }
             }
         }

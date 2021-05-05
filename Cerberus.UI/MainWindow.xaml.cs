@@ -200,7 +200,7 @@ namespace Cerberus.UI
                     LogIt("Disassembling script..");
                     File.WriteAllText(outputPath + ".script_asm" + System.IO.Path.GetExtension(outputPath), script.Disassemble());
                     LogIt("Decompiling script..");
-                    File.WriteAllText(outputPath + ".decompiled" + System.IO.Path.GetExtension(outputPath), script.Decompile());
+                    File.WriteAllText(outputPath + ".decompiled.gsc" + System.IO.Path.GetExtension(outputPath), script.Decompile());
                     LogIt("Dumping Hash Table..");
                     File.WriteAllText(outputPath + ".unnamed_hashed" + System.IO.Path.GetExtension(outputPath), script.ExportHashTable());
                 }
