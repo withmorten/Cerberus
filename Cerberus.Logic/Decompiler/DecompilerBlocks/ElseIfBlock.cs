@@ -16,7 +16,7 @@ namespace Cerberus.Logic
 
         public override string GetHeader()
         {
-            return string.Format("else if({0})", Comparison);
+            return string.Format("else if ({0})", Comparison);
         }
 
         /// <summary>

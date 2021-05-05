@@ -24,7 +24,7 @@ namespace Cerberus.Logic
         /// <summary>
         /// Gets the header
         /// </summary>
-        public override string GetHeader() => string.Format("if({0})", Comparison);
+        public override string GetHeader() => string.Format("if ({0})", Comparison);
 
         /// <summary>
         /// Gets the footer
