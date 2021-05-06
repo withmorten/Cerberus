@@ -19,7 +19,7 @@ namespace Cerberus.Logic
 
         public override string GetHeader()
         {
-            return string.Format("foreach({0} in {1})", IteratorName, ArrayName);
+            return string.Format("foreach ({0} in {1})", IteratorName, ArrayName);
         }
 
         /// <summary>

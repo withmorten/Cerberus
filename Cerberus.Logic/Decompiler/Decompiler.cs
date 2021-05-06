@@ -1501,7 +1501,14 @@ namespace Cerberus.Logic
                                             functionName = import.Namespace + "::" + functionName;
                                         }
 
-                                        Stack.Push("&" + functionName);
+                                        if (Script.IsBO2())
+                                        {
+                                            Stack.Push("::" + functionName);
+                                        }
+                                        else
+                                        {
+                                            Stack.Push("&" + functionName);
+                                        }
                                         break;
                                     }
                                 default:
